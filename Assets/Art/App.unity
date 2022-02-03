@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 107276062}
+  - component: {fileID: 107276063}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -155,6 +156,19 @@ Transform:
   m_Father: {fileID: 755541713}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &107276063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107276061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73c3e39a5c74b20847def5092ab4fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shape: 1
 --- !u!1 &169369619
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +861,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 639922377}
+  - component: {fileID: 639922378}
   m_Layer: 0
   m_Name: Selection
   m_TagString: Untagged
@@ -870,6 +885,18 @@ Transform:
   m_Father: {fileID: 755541713}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &639922378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639922376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c876c2b280fa48a99cd251bc118e8d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &660182566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1115,7 @@ GameObject:
   - component: {fileID: 755541713}
   - component: {fileID: 755541714}
   m_Layer: 0
-  m_Name: Cursor
+  m_Name: CursorManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,15 +1152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81ac3ac29f35402aa419f25dc276044d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - cursorMode: 1
-    prefab: {fileID: 639922376}
-  - cursorMode: 2
-    prefab: {fileID: 779287551}
-  - cursorMode: 3
-    prefab: {fileID: 107276061}
-  - cursorMode: 4
-    prefab: {fileID: 1002782615}
+  cursors:
+  - {fileID: 639922378}
+  - {fileID: 779287553}
+  - {fileID: 107276063}
+  - {fileID: 1002782617}
   targetCamera: {fileID: 963194227}
   cursorMask:
     serializedVersion: 2
@@ -1147,6 +1170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 779287552}
+  - component: {fileID: 779287553}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -1170,6 +1194,19 @@ Transform:
   m_Father: {fileID: 755541713}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &779287553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779287551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73c3e39a5c74b20847def5092ab4fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shape: 0
 --- !u!1 &929616266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415d0506916b41745af815a3b9629ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursor: {fileID: 755541714}
+  cursorManager: {fileID: 755541714}
   control: {fileID: 1909888233}
   shapePool: {fileID: 404256835}
 --- !u!1 &963194225
@@ -1568,6 +1605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1002782616}
+  - component: {fileID: 1002782617}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1591,6 +1629,19 @@ Transform:
   m_Father: {fileID: 755541713}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1002782617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002782615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73c3e39a5c74b20847def5092ab4fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shape: 2
 --- !u!1 &1077068313
 GameObject:
   m_ObjectHideFlags: 0

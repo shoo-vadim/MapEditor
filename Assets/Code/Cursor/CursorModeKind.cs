@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public enum CursorMode
+    public enum CursorModeKind
     {
         Off,
         Selection,

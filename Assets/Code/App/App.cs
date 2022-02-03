@@ -6,7 +6,7 @@ namespace Code
     public class App : MonoExecutor
     {
         [SerializeField] 
-        private Cursor cursor;
+        private CursorManager cursorManager;
         
         [SerializeField] 
         private Control control;
@@ -21,15 +21,13 @@ namespace Code
         }
         
         // По-идее, между Cursor и Control должна быть своя прослойка, но пусть пока этим занимается App
-        private void OnShapeControl(Shape shape)
-        {
-            cursor.AddShape(shape);
-        }
+        // Не очень удобно передавать каждый раз cursorManager, но что-то мне не приходит в голову,
+        // как это можно упростить, т.к. в некоторые Mode мы должны передавать доп параметры
+        private void OnShapeControl(Shape shape) => 
+            cursorManager.Use(new Addition(cursorManager, shape));
         
-        private void OnSelectionControl()
-        {
-            cursor.CursorMode = CursorMode.Selection;
-        }
+        private void OnSelectionControl() =>
+            cursorManager.Use(new Selection(cursorManager));
         
         /*
          * Вообще, увлекся и начал сахарить поиск нужных объектов.
@@ -39,40 +37,31 @@ namespace Code
         {
             if (control == null) 
                 control = Components.Find<Control>(gameObject);
-            if (cursor == null) 
-                cursor = Components.Find<Cursor>(gameObject);
+            if (cursorManager == null) 
+                cursorManager = Components.Find<CursorManager>(gameObject);
             if (shapePool == null)
                 shapePool = Components.Find<ShapePool>(gameObject);
         }
         
-        private void Start()
-        {
-            cursor.CursorMode = CursorMode.Off;
-        }
+        protected virtual void Start() => 
+            cursorManager.Use(new Off(cursorManager));
 
-        private void OnEnable()
-        {
-            Subscribe();
-        }
+        protected virtual void OnEnable() => Subscribe();
 
-        private void OnDisable()
-        {
-            Unsubscribe();
-        }
+        protected virtual void OnDisable() => Unsubscribe();
 
         private void Subscribe()
         {
             control.OnSelection += OnSelectionControl;
             control.OnShape += OnShapeControl;
-            cursor.OnShapeAdded += OnShapeAdded;
+            cursorManager.OnShapeAdded += OnShapeAdded;
         }
 
         private void Unsubscribe()
         {
             control.OnSelection -= OnSelectionControl;
             control.OnShape -= OnShapeControl;
-            cursor.OnShapeAdded -= OnShapeAdded;
+            cursorManager.OnShapeAdded -= OnShapeAdded;
         }
-
     }
 }
