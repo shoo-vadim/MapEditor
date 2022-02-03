@@ -17,7 +17,7 @@ namespace Code
             {
                 var prefab = prefabs.FirstOrDefault(p => p.GetType() == type);
                 if (prefab == null) throw new ArgumentException($"Unable to find prefab of type {type}");
-                item = Instantiate(prefab);
+                item = Instantiate(prefab, transform);
             }
             item.Setup();
             return item;

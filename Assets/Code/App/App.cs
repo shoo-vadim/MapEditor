@@ -17,6 +17,7 @@ namespace Code
         
         private void AddShape(Shape shape)
         {
+            shapePool.Obtain(shape);
             Debug.Log($"Adding {shape}");
         }
 
