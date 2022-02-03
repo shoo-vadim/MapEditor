@@ -1134,7 +1134,7 @@ MonoBehaviour:
     prefab: {fileID: 107276061}
   - cursorMode: 4
     prefab: {fileID: 1002782615}
-  mainCamera: {fileID: 963194227}
+  targetCamera: {fileID: 963194227}
   cursorMask:
     serializedVersion: 2
     m_Bits: 128
