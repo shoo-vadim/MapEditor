@@ -2,10 +2,16 @@
 
 namespace Code.Pool
 {
-    public class ShapePool : PrefabedPool<Shape, BaseShape>
+    /*
+     * Возможно я погорячился, и тут не нужно указывать TRequest.
+     * Я бы посмотрел как лучше, как только закончу основной функционал.
+     * На самом деле, сейчас даже Release в пул не проверен
+     */
+    public class ShapePool : PrefabedPool<Shape, MonoShape>
     {
-        // TODO: Нужно будет перепроверить выдасться ли базовый тип при таком сравнении
-        public override BaseShape Obtain(Shape request)
+        // TODO: Нужно будет перепроверить выдасться ли базовый тип при таком сравнении.
+        // => Вроде работает, но отдельно на условном sharplab не проверял 
+        public override MonoShape Obtain(Shape request)
         {
             return ObtainInstance(request switch
             {

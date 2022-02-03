@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public class SphereShape : MonoShape
+    public interface IState
     {
         
     }

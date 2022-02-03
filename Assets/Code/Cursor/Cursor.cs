@@ -20,7 +20,7 @@ namespace Code
             public GameObject Prefab => prefab;
         }
 
-        public event Action OnClick;
+        public event Action<Vector3> OnClick;
 
         public CursorMode CursorMode
         {
@@ -55,6 +55,8 @@ namespace Code
         private GameObject _cursorPrefab;
 
         private bool _isCursorShown;
+        
+        [SerializeField]
         private bool _isMouseDown;
 
         private const float RaycastDistance = 1000f;
@@ -88,11 +90,12 @@ namespace Code
                 if (Input.GetMouseButtonDown(ControlMouseButton) && !_isMouseDown)
                 {
                     _isMouseDown = true;
-                    OnClick?.Invoke();
+                    OnClick?.Invoke(hit.point);
                 }
-                else if (Input.GetMouseButtonDown(ControlMouseButton) && _isMouseDown)
+                else if (Input.GetMouseButtonUp(ControlMouseButton) && _isMouseDown)
                 {
                     _isMouseDown = false;
+                    
                 }
                 
                 _cursorPrefab.transform.position = hit.point;

@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public class CubeShape : BaseShape
+    public class CubeShape : MonoShape
     {
         
     }

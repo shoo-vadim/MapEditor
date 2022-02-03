@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Code
 {
-    public class App : MonoBehaviour// , IPointerClickHandler
+    public class App : MonoExecutor
     {
         [SerializeField] 
         private Cursor cursor;
@@ -15,10 +15,15 @@ namespace Code
         [SerializeField] 
         private ShapePool shapePool;
         
-        private void AddShape(Shape shape)
+        /*
+         * Как будет обрабатываться селекшн?
+         * Можно при добавлении объектов из пула, подписываться на их OnSelected,
+         * Можно сделать мультиселект, и тогда скорее всего селекшн уйдет в монобех Cursor
+         */
+        private void AddShape(Shape shape, Vector3 position)
         {
-            shapePool.Obtain(shape);
-            Debug.Log($"Adding {shape}");
+            var monoShape = shapePool.Obtain(shape);
+            monoShape.transform.position = position;
         }
 
         private CursorMode MapCursorFromShape(Shape shape) => shape switch 
@@ -54,7 +59,7 @@ namespace Code
             cursor.CursorMode = CursorMode.Selection;
         }
 
-        private void OnCursorClick()
+        private void OnCursorClick(Vector3 position)
         {
             /*
              * Возможно, не самое удачное решение привязываться к состоянию курсора,
@@ -66,7 +71,7 @@ namespace Code
                 case CursorMode.Sphere:
                 case CursorMode.Cube:
                 case CursorMode.Cylinder:
-                    AddShape(MapShapeFromCursor(cursor.CursorMode));
+                    AddShape(MapShapeFromCursor(cursor.CursorMode), position);
                     break;
                 case CursorMode.Selection:
                     Debug.Log("Selection click");
@@ -84,11 +89,11 @@ namespace Code
         private void OnValidate()
         {
             if (control == null) 
-                control = Services.Find<Control>(gameObject);
+                control = Components.Find<Control>(gameObject);
             if (cursor == null) 
-                cursor = Services.Find<Cursor>(gameObject);
+                cursor = Components.Find<Cursor>(gameObject);
             if (shapePool == null)
-                shapePool = Services.Find<ShapePool>(gameObject);
+                shapePool = Components.Find<ShapePool>(gameObject);
         }
         
         private void Start()

@@ -78,17 +78,17 @@ namespace Code
         private void OnValidate()
         {
             if (buttonUndo == null) 
-                buttonUndo = Services.Find<UndoButton>(gameObject);
+                buttonUndo = Components.Find<UndoButton>(gameObject);
             if (buttonRedo == null) 
-                buttonRedo = Services.Find<UndoButton>(gameObject);
+                buttonRedo = Components.Find<UndoButton>(gameObject);
             if (buttonSelection == null) 
-                buttonSelection = Services.Find<UndoButton>(gameObject);
+                buttonSelection = Components.Find<UndoButton>(gameObject);
             if (buttonSphere == null) 
-                buttonSphere = Services.Find<UndoButton>(gameObject);
+                buttonSphere = Components.Find<UndoButton>(gameObject);
             if (buttonCube == null) 
-                buttonCube = Services.Find<UndoButton>(gameObject);
+                buttonCube = Components.Find<UndoButton>(gameObject);
             if (buttonCylinder == null) 
-                buttonCylinder = Services.Find<UndoButton>(gameObject);
+                buttonCylinder = Components.Find<UndoButton>(gameObject);
         }
     }
 }

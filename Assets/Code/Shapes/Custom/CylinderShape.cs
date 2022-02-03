@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public class CylinderShape : BaseShape
+    public class CylinderShape : MonoShape
     {
         
     }
