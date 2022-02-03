@@ -4,6 +4,8 @@ namespace Code
 {
     public abstract class BaseShape : PrefabedItem
     {
+        
+        
         // Не сообразил, можно ли сделать через дженерики/типы, поэтому ввел enum на всякий случай
         [SerializeField] 
         private Shape shape;

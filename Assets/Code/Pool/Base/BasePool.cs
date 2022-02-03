@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Code
@@ -17,26 +15,6 @@ namespace Code
         
         // Т.к. теперь нам нужно мэппать TRequest -> TItem, мы оставляем функцию абстрактной
         public abstract TItem Obtain(TRequest request);
-        
-        // protected bool TryObtain<T>(out TItem item) 
-        //     where T : TItem
-        // {
-        //     // TODO: Нужно будет перепроверить выдасться ли базовый тип при таком сравнении
-        //     item = Items.FirstOrDefault(i => i.GetType() == typeof(T));
-        //     return item != null;
-        // }
-
-        // protected TItem Obtain(Type type)
-        // {
-        //     var item = Items.FirstOrDefault(i => i.GetType() == type);
-        //     // if (item == null) t
-        // }
-        
-        // protected bool TryObtain(Type type, out TItem item)
-        // {
-        //     item = Items.FirstOrDefault(i => i.GetType() == type);
-        //     return item != null;
-        // }
 
         public void Release(TItem item)
         {

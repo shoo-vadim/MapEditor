@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Code
+﻿namespace Code
 {
     public class CubeShape : BaseShape
     {
