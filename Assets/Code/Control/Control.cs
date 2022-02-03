@@ -1,17 +1,22 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Code
 {
     public class Control : MonoBehaviour
     {
-        // TODO: Добавить OnValidate
+        public event Action OnSelection;
+        
+        public event Action<Shape> OnShape;
+
         [SerializeField] 
         private BaseButton buttonUndo;
         
         [SerializeField] 
         private BaseButton buttonRedo;
+
+        [SerializeField] 
+        private BaseButton buttonSelection;
         
         [SerializeField] 
         private BaseButton buttonSphere;
@@ -21,15 +26,7 @@ namespace Code
         
         [SerializeField] 
         private BaseButton buttonCylinder;
-
-        private TButton FindButton<TButton>() 
-            where TButton : BaseButton
-        {
-            var button = GetComponentInChildren<TButton>();
-            if (button == null) throw new ArgumentException($"Unable to find button of type {nameof(TButton)}");
-            return button;
-        }
-
+        
         private void OnUndoClick()
         {
             Debug.Log(nameof(OnUndoClick));
@@ -39,26 +36,20 @@ namespace Code
         {
             Debug.Log(nameof(OnRedoClick));
         }
+
+        private void OnSelectionClick() => OnSelection?.Invoke();
+
+        private void OnSphereClick() => OnShape?.Invoke(Shape.Sphere);
+
+        private void OnCubeClick() => OnShape?.Invoke(Shape.Cube);
         
-        private void OnSphereClick()
-        {
-            Debug.Log(nameof(OnSphereClick));
-        }
-        
-        private void OnCubeClick()
-        {
-            Debug.Log(nameof(OnCubeClick));
-        }
-        
-        private void OnCylinderClick()
-        {
-            Debug.Log(nameof(OnCylinderClick));
-        }
+        private void OnCylinderClick() => OnShape?.Invoke(Shape.Cylinder);
 
         private void Subscribe()
         {
             buttonUndo.OnClick += OnUndoClick;
             buttonRedo.OnClick += OnRedoClick;
+            buttonSelection.OnClick += OnSelectionClick;
             buttonSphere.OnClick += OnSphereClick;
             buttonCube.OnClick += OnCubeClick;
             buttonCylinder.OnClick += OnCylinderClick;            
@@ -68,6 +59,7 @@ namespace Code
         {
             buttonUndo.OnClick -= OnUndoClick;
             buttonRedo.OnClick -= OnRedoClick;
+            buttonSelection.OnClick -= OnSelectionClick;
             buttonSphere.OnClick -= OnSphereClick;
             buttonCube.OnClick -= OnCubeClick;
             buttonCylinder.OnClick -= OnCylinderClick;
@@ -85,11 +77,18 @@ namespace Code
 
         private void OnValidate()
         {
-            buttonUndo = FindButton<UndoButton>();
-            buttonRedo = FindButton<RedoButton>();
-            buttonSphere = FindButton<SphereButton>();
-            buttonCube = FindButton<CubeButton>();
-            buttonCylinder = FindButton<CylinderButton>();
+            if (buttonUndo == null) 
+                buttonUndo = Services.Find<UndoButton>(gameObject);
+            if (buttonRedo == null) 
+                buttonRedo = Services.Find<UndoButton>(gameObject);
+            if (buttonSelection == null) 
+                buttonSelection = Services.Find<UndoButton>(gameObject);
+            if (buttonSphere == null) 
+                buttonSphere = Services.Find<UndoButton>(gameObject);
+            if (buttonCube == null) 
+                buttonCube = Services.Find<UndoButton>(gameObject);
+            if (buttonCylinder == null) 
+                buttonCylinder = Services.Find<UndoButton>(gameObject);
         }
     }
 }

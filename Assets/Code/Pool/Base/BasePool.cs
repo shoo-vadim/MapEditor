@@ -4,7 +4,8 @@ using UnityEngine;
 namespace Code
 {
     // Отмечу, что с пулом объектов не работал никогда,
-    public abstract class BasePool<TPoolable> : MonoBehaviour where TPoolable : IPoolable
+    public abstract class BasePool<TPoolable> : MonoBehaviour 
+        where TPoolable : IPoolable
     {
         protected readonly List<TPoolable> Items = new List<TPoolable>();
 
@@ -12,6 +13,7 @@ namespace Code
             where TItem : TPoolable, new()
         {
             var item = new TItem();
+            // Выбор из массива, либо Instance
             return item;
         }
 
