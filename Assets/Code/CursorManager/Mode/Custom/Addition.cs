@@ -6,15 +6,16 @@ namespace Code
 {
     public class Addition : BaseMode
     {
-        // Один из варинтов спрятать TriggerAdd, это вывести его в событие
+        /*
+         * Один из варинтов спрятать TriggerAdd, это вывести его в событие,
+         * подписываясь на него, при переходе в Addition-режим в CursorManager
+         */
         // public event Action<Vector3, Shape> OnAdd;
         
         private Shape Shape { get; }
         
         private BaseCursor _cursor;
 
-        private bool _isCursorShown;
-        
         private bool _isMouseDown;
         
         public Addition(CursorManager cursorManager, Shape shape) : base(cursorManager) => Shape = shape;
@@ -37,31 +38,23 @@ namespace Code
             var ray = CursorManager.TargetCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hit, CursorManager.RaycastDistance, CursorManager.CursorMask))
             {
-                if (!_isCursorShown)
-                {
-                    // Откешировал на всякий случай, но не уверен, что это нужно, возможно SetActive автоматом кеширует
-                    _isCursorShown = true;
-                    _cursor.gameObject.SetActive(true);
-                }
+                _cursor.Show(true);
                 
-                // Тут как-то нужно разруливать MouseDown отдельно для стейта 
-                // Получается? У нас тут три стейта Off, Selection, Adding
-                if (Input.GetMouseButtonDown(CursorManager.ControlMouseButton) && !_isMouseDown)
+                if (CursorManager.IsMouseDown && !_isMouseDown)
                 {
                     _isMouseDown = true;
                     CursorManager.TriggerAdd(Shape, hit.point);
                 }
-                else if (Input.GetMouseButtonUp(CursorManager.ControlMouseButton) && _isMouseDown)
+                else if (CursorManager.IsMouseUp && _isMouseDown)
                 {
                     _isMouseDown = false;
                 }
                 
                 CursorManager.transform.position = hit.point;
             }
-            else if (_isCursorShown)
+            else
             {
-                _isCursorShown = false;
-                _cursor.gameObject.SetActive(false);
+                _cursor.Show(false);
             }
         }
     }

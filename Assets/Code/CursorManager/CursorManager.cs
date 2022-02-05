@@ -10,22 +10,31 @@ namespace Code
         public const float RaycastDistance = 1000f;
         
         public const int ControlMouseButton = 0;
-        
+
+        public SelectionBox SelectionBox => selectionBox;
+
         public BaseCursor[] Cursors => cursors;
 
         public Camera TargetCamera => targetCamera;
 
         public LayerMask CursorMask => cursorMask;
-
-        [SerializeField] 
-        private BaseCursor[] cursors;
-
+        
+        public bool IsMouseDown => Input.GetMouseButtonDown(ControlMouseButton);
+        
+        public bool IsMouseUp => Input.GetMouseButtonUp(ControlMouseButton);
+        
         [SerializeField]
         private Camera targetCamera;
         
         [SerializeField] 
         private LayerMask cursorMask;
+        
+        [SerializeField] 
+        private SelectionBox selectionBox;
 
+        [SerializeField] 
+        private BaseCursor[] cursors;
+        
         // private CursorModeKind _currentCursorMode;
         // private GameObject _cursorPrefab;
 
@@ -101,6 +110,13 @@ namespace Code
             _currentMode?.OnUpdate(Time.deltaTime);
             // if (_currentCursorMode != CursorModeKind.Off) DrawCursor();
         }
+
+        /*
+         * Заметил, что в разных режимах этот функционал переиспользуется,
+         * Плюс, так можно вывести работу со статическим Input,
+         * чтобы в дальнейшем было проще написать заглушку для тестирования  
+         */
+        
 
         // private void HidePrefabs()
         // {
