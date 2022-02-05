@@ -4,5 +4,5 @@ using UnityEngine;
 namespace Code.State
 {
     [Serializable]
-    public record ShapeState(Vector3 Scale, Color Color) : IState;
+    public record ShapeProps(Vector3 Scale, Color Color) : IProps;
 }

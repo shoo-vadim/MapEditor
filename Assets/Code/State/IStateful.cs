@@ -1,8 +1,8 @@
 ﻿namespace Code
 {
-    public interface IStateful<TState> 
-        where TState : IState
+    public interface IStateful<TProps> 
+        where TProps : IProps
     {
-        TState State { get; set; }
+        TProps Props { get; set; }
     }
 }

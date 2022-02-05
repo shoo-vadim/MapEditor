@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public interface IState
+    public interface IProps
     {
         
     }

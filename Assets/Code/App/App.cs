@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Code.Pool;
 using UnityEngine;
 
@@ -13,22 +14,34 @@ namespace Code
 
         [SerializeField] 
         private ShapePool shapePool;
-        
-        private void OnShapeAdded(Shape shape, Vector3 position)
-        {
-            var monoShape = shapePool.Obtain(shape);
-            monoShape.transform.position = position;
-        }
-        
+
+        private readonly List<MonoShape> Scene = new();
+
         // По-идее, между Cursor и Control должна быть своя прослойка, но пусть пока этим занимается App
         // Не очень удобно передавать каждый раз cursorManager, но что-то мне не приходит в голову,
         // как это можно упростить, т.к. в некоторые Mode мы должны передавать доп параметры
         private void OnShapeControl(Shape shape) => 
             cursorManager.Use(new Addition(cursorManager, shape));
-        
+
         private void OnSelectionControl() =>
             cursorManager.Use(new Selection(cursorManager));
         
+        private void OnShapeAdded(Shape shape, Vector3 position)
+        {
+            var monoShape = shapePool.Obtain(shape);
+            Scene.Add(monoShape);
+            monoShape.transform.position = position;
+        }
+
+        private void OnSelectionBox(Bounds bounds)
+        {
+            var selected = new List<MonoShape>();
+            foreach (var shape in Scene)
+                if (bounds.Intersects(shape.Renderer.bounds))
+                    selected.Add(shape);
+            Debug.Log(selected.Count);
+        }
+
         /*
          * Вообще, увлекся и начал сахарить поиск нужных объектов.
          * Можно было бы даже написать отдельный аттрибут, чтобы им помечать необходимые поля
@@ -55,6 +68,7 @@ namespace Code
             control.OnSelection += OnSelectionControl;
             control.OnShape += OnShapeControl;
             cursorManager.OnShapeAdded += OnShapeAdded;
+            cursorManager.OnSelectionBox += OnSelectionBox;
         }
 
         private void Unsubscribe()
@@ -62,6 +76,7 @@ namespace Code
             control.OnSelection -= OnSelectionControl;
             control.OnShape -= OnShapeControl;
             cursorManager.OnShapeAdded -= OnShapeAdded;
+            cursorManager.OnSelectionBox -= OnSelectionBox;
         }
     }
 }
