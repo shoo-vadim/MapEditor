@@ -7,9 +7,7 @@
         public override void OnSetup()
         {
             foreach (var cursor in CursorManager.Cursors)
-            {
-                cursor.gameObject.SetActive(false);
-            }
+                cursor.Show(false);
         }
     }
 }

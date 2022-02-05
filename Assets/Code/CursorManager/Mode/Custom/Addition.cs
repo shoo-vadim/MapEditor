@@ -27,10 +27,10 @@ namespace Code
             if (_cursor == null) 
                 throw new ArgumentException($"Unable to find cursor for shape {Shape}");
             
-            _cursor.gameObject.SetActive(true);
+            _cursor.Show(true);
         }
 
-        public override void OnDrop() => _cursor.gameObject.SetActive(false);
+        public override void OnDrop() => _cursor.Show(false);
 
         public override void OnUpdate(float deltaTime)
         {
