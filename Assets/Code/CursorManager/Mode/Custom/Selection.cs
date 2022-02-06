@@ -1,37 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Code
 {
-    public class Selection : BaseMode
+    public class Selection : BaseMode<ModeSettings>
     {
-        /*
-         * Тут курсор не особенно полезен, но пусть пока будет
-         * т.к. не предусмотрел изначально, что будет мультиселект,
-         * Можно для красоты изменить на 2d-шный
-         */
-        // private SelectionCursor _cursor;
+        public event Action<Bounds> OnSelectionBox;
 
         private bool _isMousePressed;
         
         private Vector3 _mouseBegin;
-
-        public Selection(CursorManager cursorManager) : base(cursorManager)
-        {
-        }
-
-        public override void OnSetup()
-        {
-            // if (_cursor == null)
-            // {
-            //     _cursor = CursorManager.Cursors
-            //         .FirstOrDefault(c => c is SelectionCursor) as SelectionCursor;
-            //
-            //     if (_cursor == null) 
-            //         throw new ArgumentException($"Unable to find selection cursor");    
-            // }
-            //
-            // _cursor.Show(true);
-        }
 
         public override void OnDrop()
         {
@@ -96,20 +74,13 @@ namespace Code
                 return bounds;
             }
 
-            return new Bounds();
-            // var a = cam.ScreenToViewportPoint(_mouseBegin);
-            // var b = cam.ScreenToViewportPoint(CursorManager.MousePosition);
-            // var min = Vector3.Min(a, b);
-            // var max = Vector3.Max(a, b);
-            // min.z = cam.nearClipPlane;
-            // max.z = cam.farClipPlane;
             /*
              * Тут в апдейте будут спамиться Bounds, не очень хорошо для GC,
              * но на этапе прототипирования это будет не критично
              * Как вариант, использовать один объект Bounds и перенастраивать
              * его через SetMinMax
              */ 
-
+            return new Bounds();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -127,7 +98,7 @@ namespace Code
             if (_isMousePressed)
             {
                 CalculateBox();
-                CursorManager.TriggerSelectionBox(CalculateBounds());
+                OnSelectionBox?.Invoke(CalculateBounds());
             }
         }
     }

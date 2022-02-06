@@ -1,9 +1,9 @@
 ﻿namespace Code
 {
-    public class Off : BaseMode
+    public class Off : BaseMode<ModeSettings>
     {
         // Использую этот режим для сброса на старте приложения
-        public Off(CursorManager cursorManager) : base(cursorManager) { }
+        // public Off(CursorManager cursorManager) : base(cursorManager) { }
 
         public override void OnSetup()
         {

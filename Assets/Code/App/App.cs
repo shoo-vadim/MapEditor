@@ -20,12 +20,12 @@ namespace Code
         // По-идее, между Cursor и Control должна быть своя прослойка, но пусть пока этим занимается App
         // Не очень удобно передавать каждый раз cursorManager, но что-то мне не приходит в голову,
         // как это можно упростить, т.к. в некоторые Mode мы должны передавать доп параметры
-        private void OnShapeControl(Shape shape) => 
-            cursorManager.Use(new Addition(cursorManager, shape));
+        private void OnShapeControl(Shape shape) =>
+            cursorManager.Use<Addition, AdditionSettings>(new AdditionSettings(shape));
 
         private void OnSelectionControl() =>
-            cursorManager.Use(new Selection(cursorManager));
-        
+            cursorManager.Use<Selection, ModeSettings>(new ModeSettings());
+
         private void OnShapeAdded(Shape shape, Vector3 position)
         {
             var monoShape = shapePool.Obtain(shape);
@@ -55,9 +55,9 @@ namespace Code
             if (shapePool == null)
                 shapePool = Components.Find<ShapePool>(gameObject);
         }
-        
-        protected virtual void Start() => 
-            cursorManager.Use(new Off(cursorManager));
+
+        protected virtual void Start() =>
+            cursorManager.Use<Off, ModeSettings>(new ModeSettings());
 
         protected virtual void OnEnable() => Subscribe();
 

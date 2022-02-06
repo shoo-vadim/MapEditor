@@ -4,29 +4,25 @@ using UnityEngine;
 
 namespace Code
 {
-    public class Addition : BaseMode
+    public class Addition : BaseMode<AdditionSettings>
     {
         /*
          * Один из варинтов спрятать TriggerAdd, это вывести его в событие,
          * подписываясь на него, при переходе в Addition-режим в CursorManager
          */
-        // public event Action<Vector3, Shape> OnAdd;
-        
-        private Shape Shape { get; }
-        
+        public event Action<Shape, Vector3> OnAdd;
+
         private BaseCursor _cursor;
 
         private bool _isMouseDown;
-        
-        public Addition(CursorManager cursorManager, Shape shape) : base(cursorManager) => Shape = shape;
 
         public override void OnSetup()
         {
             _cursor = CursorManager.Cursors
-                    .FirstOrDefault(c => c is ShapeCursor shapeCursor && shapeCursor.Shape == Shape);
+                    .FirstOrDefault(c => c is ShapeCursor shapeCursor && shapeCursor.Shape == Settings.Shape);
             
             if (_cursor == null) 
-                throw new ArgumentException($"Unable to find cursor for shape {Shape}");
+                throw new ArgumentException($"Unable to find cursor for shape {Settings.Shape}");
             
             _cursor.Show(true);
         }
@@ -43,7 +39,7 @@ namespace Code
                 if (CursorManager.IsMouseDown && !_isMouseDown)
                 {
                     _isMouseDown = true;
-                    CursorManager.TriggerAdd(Shape, hit.point);
+                    OnAdd?.Invoke(Settings.Shape, hit.point);
                 }
                 else if (CursorManager.IsMouseUp && _isMouseDown)
                 {
