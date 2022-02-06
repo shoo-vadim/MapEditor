@@ -2,24 +2,23 @@
 
 namespace Code.Pool
 {
-    /*
-     * Возможно я погорячился, и тут не нужно указывать TRequest.
-     * Я бы посмотрел как лучше, как только закончу основной функционал.
-     * На самом деле, сейчас даже Release в пул не проверен
-     */
-    public class ShapePool : PrefabedPool<Shape, MonoShape>
+    public class ShapePool : MonoPool<MonoShape>
     {
-        // TODO: Нужно будет перепроверить выдасться ли базовый тип при таком сравнении.
-        // => Вроде работает, но отдельно на условном sharplab не проверял 
-        public override MonoShape Obtain(Shape request)
+        public MonoShape Obtain(Shape shape)
         {
-            return ObtainInstance(request switch
+            /*
+             * Тут можно выдавать фигуру через pattern matching и делать упор
+             * на проверку компилятором, дописав Roslyn скрипты например.
+             * Либо, забиндить через, например поле Shape, на каждом префабе, а потом валидировать через редактор
+             */
+            return shape switch
             {
-                Shape.Sphere => typeof(SphereShape),
-                Shape.Cube => typeof(CubeShape),
-                Shape.Cylinder => typeof(CylinderShape),
-                _ => throw new ArgumentOutOfRangeException(nameof(request), request, $"Unable to find shape for request {request}")
-            });
+                Shape.Sphere => Obtain<SphereShape>(),
+                Shape.Cube => Obtain<CubeShape>(),
+                Shape.Cylinder => Obtain<CylinderShape>(),
+                _ => throw new ArgumentOutOfRangeException(nameof(shape), shape, 
+                    $"Unable to find type for shape {shape}")
+            };
         }
     }
 }

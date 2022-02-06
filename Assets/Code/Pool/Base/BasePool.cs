@@ -4,22 +4,21 @@ using UnityEngine;
 namespace Code
 {
     /*
-     * Отмечу, что с пулом объектов не работал никогда, так что не могу предусмотреть подводные камни.
-     * Еще, т.к. изначально планировал работать напрямую с классами IPoolable, но в итоге перешел на enum
-     * Решил оставить базовый дженерик-класс, TRequest это enum, который мэппится к нужному 
+     * Переписал пул, немного упростив его. Теперь объект
+     * запрашивается через класс, как я изначально и хотел
      */
-    public abstract class BasePool<TRequest, TItem> : MonoBehaviour 
-        where TItem : IPoolItem
+    public abstract class BasePool<TPoolable> : MonoBehaviour
+        where TPoolable : IPoolable
     {
-        protected readonly List<TItem> Items = new List<TItem>();
-        
-        // Т.к. теперь нам нужно мэппать TRequest -> TItem, мы оставляем функцию абстрактной
-        public abstract TItem Obtain(TRequest request);
+        protected readonly List<TPoolable> Poolable = new ();
 
-        public void Release(TItem item)
+        public abstract T Obtain<T>()
+            where T : TPoolable;
+
+        public virtual void Release(TPoolable poolable)
         {
-            item.Drop();
-            Items.Add(item);
+            poolable.Drop();
+            Poolable.Add(poolable);
         }
     }
 }

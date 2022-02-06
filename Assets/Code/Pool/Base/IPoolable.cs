@@ -1,6 +1,6 @@
 ﻿namespace Code
 {
-    public interface IPoolItem
+    public interface IPoolable
     {
         void Setup();
         void Drop();
