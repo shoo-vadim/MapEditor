@@ -8,10 +8,5 @@ namespace Code
 
         [SerializeField] 
         private RectTransform rect;
-
-        public void Show(bool visibility)
-        {
-            gameObject.SetActive(visibility);
-        }
     }
 }

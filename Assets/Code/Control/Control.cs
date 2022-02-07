@@ -75,20 +75,25 @@ namespace Code
             UnSubscribe();
         }
 
+        /*
+         * Просто для примера, GO сам собирает нужные себе зависимости с префаба,
+         * и краснит в консоль, если они не найдены.
+         */
         private void OnValidate()
         {
             if (buttonUndo == null) 
-                buttonUndo = Components.Find<UndoButton>(gameObject);
+                buttonUndo = this.Detect<UndoButton>();
             if (buttonRedo == null) 
-                buttonRedo = Components.Find<UndoButton>(gameObject);
+                buttonRedo = this.Detect<RedoButton>();
             if (buttonSelection == null) 
-                buttonSelection = Components.Find<UndoButton>(gameObject);
+                buttonSelection = this.Detect<SelectionButton>();
             if (buttonSphere == null) 
-                buttonSphere = Components.Find<UndoButton>(gameObject);
+                buttonSphere = this.Detect<SphereButton>();
             if (buttonCube == null) 
-                buttonCube = Components.Find<UndoButton>(gameObject);
+                buttonCube = this.Detect<CubeButton>();
             if (buttonCylinder == null) 
-                buttonCylinder = Components.Find<UndoButton>(gameObject);
+                buttonCylinder = this.Detect<CylinderButton>();
+
         }
     }
 }

@@ -3,8 +3,13 @@ using UnityEngine;
 
 namespace Code
 {
-    public abstract class MonoShape : MonoPoolable, IStateful<ShapeProps>
+    public abstract class MonoShape : MonoPoolable, ISelectable, IStateful<ShapeProps>
     {
+        private static readonly int ColorProp = Shader.PropertyToID("_Color");
+        
+        /*
+         * Этот стейт нужен, чтобы потом можно было легко обрабатывать undo/redo, сохранять и т.д.
+         */
         public ShapeProps Props
         {
             get => _currentProps;
@@ -19,20 +24,23 @@ namespace Code
                 _currentProps = value;
             }
         }
-
-        private static readonly int ColorProp = Shader.PropertyToID("_Color");
-
-        public Renderer Renderer => renderer;
-
+        
         private ShapeProps _currentProps;
 
         [SerializeField] 
         private new Renderer renderer;
         
+        [SerializeField] 
+        private Transform holder;
+        
+        public Transform Anchor => holder;
+
+        public Bounds Bounds => renderer.bounds;
+
         private void OnValidate()
         {
             if (renderer == null)
-                renderer = Components.Find<Renderer>(gameObject);
+                renderer = this.Detect<Renderer>();
         }
     }
 }

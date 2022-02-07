@@ -6,10 +6,5 @@ namespace Code
     {
         public virtual void Setup() {}
         public virtual void Drop() {}
-
-        public void Show(bool visibility)
-        {
-            gameObject.SetActive(visibility);
-        }
     }
 }

@@ -14,12 +14,10 @@ namespace Code
 
         [SerializeField] 
         private ShapePool shapePool;
-
+        
         private readonly List<MonoShape> Scene = new();
 
         // По-идее, между Cursor и Control должна быть своя прослойка, но пусть пока этим занимается App
-        // Не очень удобно передавать каждый раз cursorManager, но что-то мне не приходит в голову,
-        // как это можно упростить, т.к. в некоторые Mode мы должны передавать доп параметры
         private void OnShapeControl(Shape shape) =>
             cursorManager.Use<Addition, AdditionSettings>(new AdditionSettings(shape));
 
@@ -32,28 +30,31 @@ namespace Code
             Scene.Add(monoShape);
             monoShape.transform.position = position;
         }
-
+        
+        // Вызывается в OnUpdate в режиме выделения
         private void OnSelectionBox(Bounds bounds)
         {
             var selected = new List<MonoShape>();
             foreach (var shape in Scene)
-                if (bounds.Intersects(shape.Renderer.bounds))
+                if (bounds.Intersects(shape.Bounds))
                     selected.Add(shape);
             Debug.Log(selected.Count);
         }
 
         /*
-         * Вообще, увлекся и начал сахарить поиск нужных объектов.
-         * Можно было бы даже написать отдельный аттрибут, чтобы им помечать необходимые поля
+         * Тут возможно слишком увлекся валидацией нужных объектов для тестового задания,
+         * но считаю что она крайне важна, иначе будут попадаться null-ref в рантайме, а не на компиляции.
+         * Способы для валидации могут быть разные, я сделал самым примитивным.
+         * Ещё можно написать кастомный аттрибут, либо делегировать отслеживание зависимостей DI-контейнеру
          */
         private void OnValidate()
         {
             if (control == null) 
-                control = Components.Find<Control>(gameObject);
-            if (cursorManager == null) 
-                cursorManager = Components.Find<CursorManager>(gameObject);
+                control = this.Detect<Control>();
+            if (cursorManager == null)
+                cursorManager = this.Detect<CursorManager>();
             if (shapePool == null)
-                shapePool = Components.Find<ShapePool>(gameObject);
+                shapePool = this.Detect<ShapePool>();
         }
 
         protected virtual void Start() =>

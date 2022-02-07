@@ -4,8 +4,7 @@ using UnityEngine;
 namespace Code
 {
     /*
-     * Переписал пул, немного упростив его. Теперь объект
-     * запрашивается через класс, как я изначально и хотел
+     * Эта абстракция на случай, если нам понадобится пул для не-monobehaviour
      */
     public abstract class BasePool<TPoolable> : MonoBehaviour
         where TPoolable : IPoolable

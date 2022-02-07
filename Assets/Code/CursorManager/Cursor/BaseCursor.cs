@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code
 {
@@ -15,25 +14,27 @@ namespace Code
          * работать с непроинициализированным курсором.
          * Это вложенно в рамки стандартной Unity инициализаци Awake/Start, для
          * более серьезного приложения, конечно нужно продумать систему инициализации
+         * 
+         * Закоментированно и оставленно в качестве примера кеширования/работы со стандартным пайпом Awake/Start
          */
-        private bool _isReady = false;
-        private bool _isShown;
-        
-        public void Show(bool visibility)
-        {
-            if (!_isReady)
-                throw new InvalidOperationException("Cursor not ready, please wait for Awake before using it");
-
-            if (_isShown == visibility) return;
-            
-            gameObject.SetActive(visibility);
-            _isShown = visibility;
-        }
-
-        protected virtual void Awake()
-        {
-            _isShown = gameObject.activeSelf;
-            _isReady = true;
-        }
+        // private bool _isReady = false;
+        // private bool _isShown;
+        //
+        // public void Show(bool visibility)
+        // {
+        //     if (!_isReady)
+        //         throw new InvalidOperationException("Cursor not ready, please wait for Awake before using it");
+        //
+        //     if (_isShown == visibility) return;
+        //     
+        //     gameObject.SetActive(visibility);
+        //     _isShown = visibility;
+        // }
+        //
+        // protected virtual void Awake()
+        // {
+        //     _isShown = gameObject.activeSelf;
+        //     _isReady = true;
+        // }
     }
 }

@@ -6,10 +6,6 @@ namespace Code
 {
     public class Addition : BaseMode<AdditionSettings>
     {
-        /*
-         * Один из варинтов спрятать TriggerAdd, это вывести его в событие,
-         * подписываясь на него, при переходе в Addition-режим в CursorManager
-         */
         public event Action<Shape, Vector3> OnAdd;
 
         private BaseCursor _cursor;
